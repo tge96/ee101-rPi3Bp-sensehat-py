@@ -25,11 +25,16 @@ sense = SenseHat()
 
 def readings():
     t = sense.get_temperature() * (9/5) + 32 # convert to degrees F
-    p = sense.get_pressure() / 33.864 # convert to inHg (inches of mercury)
     h = sense.get_humidity()
-    t = str(round(t, 0)) # convert to string
-    p = str(round(p, 1))
+    p = sense.get_pressure() / 33.864 # convert to inHg (inches of mercury)
+
+    EE101Value(0,int(round(t)))
+    EE101Value(1,int(round(h)))
+    EE101Value(2,int(round(p)))
+    
+    t = str(round(t, 1)) # convert to string
     h = str(round(h, 1))
+    p = str(round(p, 1))
     url = 'https://dweet.io/dweet/for/shxyz?' + 'temperature=' + t + '&humidity=' + h + '&pressure=' + p
     r = requests.post(url) # to view point browser to https://dweet.io/follow/shxyz
     
